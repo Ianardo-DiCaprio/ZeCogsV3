@@ -130,6 +130,7 @@ class Birthdays(Cog):
 
         If a user has their year set, it will display the age they'll get after their birthday this year"""
         message = ctx.message
+        embeds = []
         await self.clean_bdays()
         bdays = await self.get_guild_date_configs(message.guild.id)
         this_year = datetime.date.today().year
