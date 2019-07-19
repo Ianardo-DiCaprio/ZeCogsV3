@@ -11,6 +11,7 @@ from redbot.core.bot import Red
 from redbot.core.config import Group
 from redbot.core.i18n import Translator, cog_i18n
 from redbot.core.commands import Context, Cog
+from redbot.core.utils.menus import menu, commands, DEFAULT_CONTROLS
 
 T_ = Translator("Birthdays", __file__)  # pygettext3 -Dnp locales birthdays.py
 
@@ -143,7 +144,8 @@ class Birthdays(Cog):
                               for date in g if len(bdays.get(str(date.toordinal()))) > 0)
             if not value.isspace():  # Only contains whitespace when there's no birthdays in that month
                 embed.add_field(name=datetime.datetime(year=1, month=k, day=1).strftime("%B"), value=value)
-        await message.channel.send(embed=embed)
+        embeds.append(embed)
+        await menu(ctx, pages=embeds, controls=DEFAULT_CONTROLS, message=None, page=0, timeout=20)
 
     # Utilities
     async def clean_bday(self, guild_id: int, guild_config: dict, user_id: int):
